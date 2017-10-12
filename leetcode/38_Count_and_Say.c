@@ -11,6 +11,7 @@ struct CurrStr {
     int length;
 };
 
+// Slow version
 void concatString(struct CurrStr* currStr, char ch, int amount) {
     char* str = malloc(currStr->length + amount + 2);
     
@@ -28,7 +29,8 @@ void concatString(struct CurrStr* currStr, char ch, int amount) {
     currStr->length += 2;
 }
 
-char* countAndSay(int n) {
+// Slow version
+char* countAndSay2(int n) {
     char* STRING_TABLE[11] = {
         "", "1", "11", "21", "1211", "111221",
         "312211", "13112221", "1113213211", "31131211131221", "13211311123113112211"
@@ -54,6 +56,43 @@ char* countAndSay(int n) {
         
         if (charCnt) concatString(currStr, str[cnt-1], charCnt);
         str = currStr->str;
+    }
+    return str;
+}
+
+char* countAndSay(int n) {
+    char* STRING_TABLE[11] = {
+        "", "1", "11", "21", "1211", "111221",
+        "312211", "13112221", "1113213211", "31131211131221", "13211311123113112211"
+    };
+    if (n <= 10) return STRING_TABLE[n];
+    
+    char* str = STRING_TABLE[10];
+    int idx, cnt, charCnt, l = 20;
+    while (n-- > 10) {
+        idx      = 0;
+        cnt      = 1;
+        charCnt  = 1;
+        
+        char* tmpStr = malloc(sizeof(char) * l * 2 + 1);
+        while (str[cnt] != '\0') {
+            if (str[cnt] != str[cnt-1]) {
+                tmpStr[idx++] = charCnt + 48;
+                tmpStr[idx++] = str[cnt-1];
+                charCnt = 1;
+            } else {
+                charCnt++;
+            }
+            cnt++;
+        }
+        
+        if (charCnt) {
+            tmpStr[idx++] = charCnt + 48;
+            tmpStr[idx++] = str[cnt-1];
+        }
+        tmpStr[idx] = '\0';
+        l = idx-1;
+        str = tmpStr;
     }
     return str;
 }
