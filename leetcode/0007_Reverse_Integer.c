@@ -44,3 +44,37 @@ int reverse2(int x) {
 
     return reversed > 2147483647 || reversed < -2147483646 ? 0 : reversed;
 }
+
+int reverse3(int x) {
+    if (x >= 2147483647 || x <= -2147483648) {
+        return 0;
+    }
+    
+    int remind = 0;
+    int mul = 0;
+    int reverse = 0;
+    bool isConvert = false;
+    
+    if (x < 0) {
+        x = -x;
+        isConvert = true;
+    }
+    
+    while (x > 0) {
+        remind = x%10;
+        x = x/10;
+        
+        mul = x > 0 ? 10 : 1;
+        if (reverse+remind > 214748364 && mul == 10) {
+            return 0;
+        }
+        
+        reverse = (reverse + remind) * mul;
+    }
+    
+    if (isConvert) {
+        reverse = -reverse;
+    }
+    
+    return reverse;
+}

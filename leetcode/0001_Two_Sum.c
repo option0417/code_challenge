@@ -1,6 +1,11 @@
 #include "stdio.h"
 #include "stdlib.h"
 
+/* 
+ * Use pair of index to iterate seek the TwoSum in the array.
+ */
+
+
 /**
  * Note: The returned array must be malloced, assume caller calls free().
  */
@@ -21,10 +26,27 @@ int* twoSum(int* nums, int numsSize, int target) {
     return NULL;
 }
 
-int main(int argc, char* argv[]) {
-  int nums[5] = {1, 2, 3, 4, 5};
-  int* result; 
-  
+/* New version of problem */
+int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
+    int lIdx = 0;
+    int rIdx = 0;
+    
+    for (lIdx = 0; lIdx < numsSize - 1; lIdx++) {
+        for (rIdx = lIdx+1; rIdx < numsSize; rIdx++) {
+            if (nums[lIdx] + nums[rIdx] == target) {
+                int* result = (int*)malloc(sizeof(int) * 2);
+                result[0] = lIdx;
+                result[1] = rIdx;
+                *returnSize = 2;
+                return result;
+            }
+        }
+    }
+
+    return NULL;
+}
+
+void main(void) {
   result = twoSum(nums, 5, 3);
   printf("Result: %d, %d\n", result[0], result[1]);  // 0, 1
   
